@@ -4,35 +4,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Predict · Algerian Forest Fire</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #f5f4f0;
+            --surface: #ffffff;
+            --border: #ddd;
+            --text: #1a1a1a;
+            --muted: #888;
+            --accent: #1a1a1a;
+            --result-bg: #f0faf4;
+            --result-border: #a3d9b1;
+        }
+
+        body {
+            background: var(--bg);
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2.5rem 2rem;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .card-header p {
+            font-size: 0.65rem;
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--muted);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        h1 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            margin-bottom: 1.1rem;
+        }
+
+        label {
+            font-size: 0.78rem;
+            color: var(--muted);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.5rem 0.65rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text);
+            background: var(--bg);
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent);
+            background: #fff;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 0.4;
+        }
+
+        .hint {
+            font-size: 0.65rem;
+            color: #bbb;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            margin-top: 1.2rem;
+            padding: 0.65rem;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: 0.04em;
+            transition: opacity 0.15s;
+        }
+
+        button[type="submit"]:hover {
+            opacity: 0.82;
+        }
+
+        button[type="submit"]:active {
+            opacity: 0.7;
+        }
+
+        .result-box {
+            margin-top: 1.5rem;
+            padding: 0.9rem 1rem;
+            background: var(--result-bg);
+            border: 1px solid var(--result-border);
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-box span {
+            font-size: 0.72rem;
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .result-box strong {
+            font-size: 1.1rem;
+            font-family: 'IBM Plex Mono', monospace;
+            color: #1e7e3e;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="card">
+        <div class="card-header">
+            <p>Algerian Forest Fire · ML</p>
+            <h1>Prediction</h1>
+        </div>
 
-    <h1>FWI Prediction</h1>
+        <form action="{{url_for('predict_datapoint')}}" method="post">
+            <div class="field">
+                <label for="temperature">Temperature</label>
+                <input id="temperature" name="Temperature" type="number" min="0" max="100" placeholder="0 - 100" required>
+                <span class="hint">range: 0 to 100</span>
+            </div>
 
-    <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{url_for('predict_datapoint')}}" method="post">
+            <div class="field">
+                <label for="RH">RH</label>
+                <input id="RH" name="RH" type="number" min="0" max="100" placeholder="0 - 100" required>
+                <span class="hint">range: 0 to 100</span>
+            </div>
 
-        <input type="text" name="Temperature" placeholder="Temperature" required="required" /><br>
-        <input type="text" name="RH" placeholder="RH" required="required" /><br>
-        <input type="text" name="Ws" placeholder="Ws" required="required" /><br>
-        <input type="text" name="Rain" placeholder="Rain" required="required" /><br>
-        <input type="text" name="FFMC" placeholder="FFMC" required="required" /><br>
-        <input type="text" name="DMC" placeholder="DMC" required="required" /><br>
-        <input type="text" name="ISI" placeholder="ISI" required="required" /><br>
-        <input type="text" name="Classes" placeholder="Classes" required="required" /><br>
-        <input type="text" name="Region" placeholder="Region" required="required" /><br>
+            <div class="field">
+                <label for="ws">Ws</label>
+                <input id="ws" name="Ws" type="number" min="0" max="100" placeholder="0 - 100" required>
+                <span class="hint">range: 0 to 100</span>
+            </div>
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+            <div class="field">
+                <label for="rain">Rain</label>
+                <input id="rain" name="Rain" type="number" min="0" max="100" placeholder="0 - 100" required>
+                <span class="hint">range: 0 to 100</span>
+            </div>
 
-    </form>
+            <div class="field">
+                <label for="ffmc">FFMC</label>
+                <input id="ffmc" name="FFMC" type="number" min="0" max="100"
+                    placeholder="0 - 100" required>
+            </div>
+            <div class="field">
+                <label for="dmc">DMC</label>
+                <input id="dmc" name="DMC" type="number" min="0" max="100"
+                    placeholder="0 - 100" required>
+            </div>
+            <div class="field">
+                <label for="isi">ISI</label>
+                <input id="isi" name="ISI" type="number" min="0" max="100"
+                    placeholder="0 - 100" required>
+            </div>
+            <div class="field">
+                <label for="classes">Classes</label>
+                <input id="classes" name="Classes" type="number" min="0" max="1" step="1"
+                    placeholder="0 or 1" required>
+                    <span class="hint">0 = Class 0 &nbsp;|&nbsp; 1 = Class 1</span>
+            </div>
+            <div class="field">
+                <label for="region">Region</label>
+                <input id="region" name="Region" type="number" min="0" max="1" step="1"
+                    placeholder="0 or 1" required>
+                    <span class="hint">0 = Region 0 &nbsp;|&nbsp; 1 = Region 1</span>
+            </div>
 
-        {% if results is not none %}
-        <h2>FWI Prediction Result: <strong>{{ results }}</strong></h2>
-    {% endif %}
+            <button type="submit">Run Prediction →</button>
 
+            {% if result is not none %}
+            <div class="result-box">
+                <span>Result</span>
+                <strong>{{ results }}</strong>
+            </div>
+            {% endif %}
+        </form>
+    </div>
 
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
 </body>
 
 </html>
