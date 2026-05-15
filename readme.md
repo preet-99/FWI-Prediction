@@ -64,7 +64,7 @@ pip install -r requirements.txt
 python application.py
 ```
 
-Open `Running on http://10.224.209.45:5000` in your browser.
+Open `http://10.224.209.45:5000` in your browser.
 
 ---
 
